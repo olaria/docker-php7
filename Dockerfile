@@ -5,6 +5,9 @@ RUN apt-get update && apt-get upgrade -y && apt-get autoremove -y \
 
 RUN docker-php-ext-install pdo pdo_mysql zip
 
+RUN curl -sS https://getcomposer.org/installer | php -- \
+    --install-dir=/usr/local/bin --filename=composer
+
 USER www-data
 
 WORKDIR /var/www
