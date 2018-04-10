@@ -1,18 +1,19 @@
 FROM php:7.2-fpm
 
-RUN apt-get update && apt-get upgrade -y \
-    && apt-get install git zip unzip zlib1g-dev libxml2-dev autoconf pkg-config libssl-dev -y \
-    && apt-get clean -y \
-    && pecl channel-update pecl.php.net && pecl install channel://pecl.php.net/geospatial-0.2.0 \
-    && pecl install mongodb-1.3.4 \
-    && echo "extension=mongodb.so" > $PHP_INI_DIR/conf.d/mongodb.ini
+RUN apt-get update && apt-get -y upgrade && apt-get autoremove -y \
+    && apt-get install git zip unzip zlib1g-dev -y \
+    && apt-get clean -y
+
+RUN docker-php-ext-install pdo pdo_mysql zip
 
 RUN rm /etc/apt/preferences.d/no-debian-php
-RUN docker-php-ext-install php-soap mbstring pdo pdo_mysql zip
+RUN apt-get install -y libxml2-dev php-soap
+RUN docker-php-ext-install soap
 
 RUN curl -sS https://getcomposer.org/installer | php -- \
     --install-dir=/usr/local/bin --filename=composer
 
-RUN rm -rf /tmp/pear
-
-USER www-data
+RUN apt-get install -y autoconf pkg-config libssl-dev \
+	&& pecl install mongodb-1.3.4 \
+	&& echo "extension=mongodb.so" > $PHP_INI_DIR/conf.d/mongodb.ini
+RUN docker-php-ext-install bcmath
