@@ -1,10 +1,10 @@
 FROM php:7.2-fpm
 
-RUN apt-get update && apt-get -y upgrade && apt-get autoremove -y \
+RUN apt-get update && apt-get autoremove -y \
     && apt-get install git zip unzip zlib1g-dev -y \
     && apt-get clean -y
 
-RUN docker-php-ext-install pdo pdo_mysql zip
+RUN docker-php-ext-install pdo pdo_mysql zip mbstring
 
 RUN rm /etc/apt/preferences.d/no-debian-php
 RUN apt-get install -y libxml2-dev php-soap
