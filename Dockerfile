@@ -14,6 +14,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
     --install-dir=/usr/local/bin --filename=composer
 
 RUN apt-get install -y autoconf pkg-config libssl-dev \
-	&& pecl install mongodb-1.3.4 \
+	&& pecl install mongodb \
 	&& echo "extension=mongodb.so" > $PHP_INI_DIR/conf.d/mongodb.ini
 RUN docker-php-ext-install bcmath
