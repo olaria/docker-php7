@@ -4,10 +4,11 @@ RUN apk add --no-cache \
 		--virtual .phpize_deps \
 		$PHPIZE_DEPS \
 		libxml2-dev \
-        libressl-dev \
-        tzdata
+        libressl-dev
 
-ENV TZ America/Bahia
+#Define timezone
+RUN apk add --no-cache tzdata
+RUN echo "America/Bahia" > /etc/timezone
 
 RUN pecl install mongodb \
     && docker-php-ext-enable mongodb \
