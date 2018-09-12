@@ -7,8 +7,10 @@ RUN apk add --no-cache \
         libressl-dev
 
 #Define timezone
+ENV TZ=America/Bahia
 RUN apk add --no-cache tzdata
-RUN echo "America/Bahia" > /etc/timezone
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
+RUN echo $TZ > /etc/timezone
 
 RUN pecl install mongodb \
     && docker-php-ext-enable mongodb \
