@@ -4,7 +4,10 @@ RUN apk add --no-cache \
 		--virtual .phpize_deps \
 		$PHPIZE_DEPS \
 		libxml2-dev \
-        libressl-dev
+        libressl-dev \
+        tzdata
+
+ENV TZ America/Bahia
 
 RUN pecl install mongodb \
     && docker-php-ext-enable mongodb \
