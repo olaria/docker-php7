@@ -4,7 +4,8 @@ RUN apk add --no-cache \
 		--virtual .phpize_deps \
 		$PHPIZE_DEPS \
 		libxml2-dev \
-        libressl-dev
+        libressl-dev \
+        libzip-dev
 
 #Define timezone
 ENV TZ=America/Bahia
