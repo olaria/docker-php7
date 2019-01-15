@@ -1,4 +1,4 @@
-FROM php:7.2-fpm-alpine3.7
+FROM php:7.3-fpm-alpine3.8
 
 RUN apk add --no-cache \
 		--virtual .phpize_deps \
