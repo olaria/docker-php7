@@ -15,9 +15,10 @@ RUN echo $TZ > /etc/timezone
 
 RUN pecl install mongodb \
     && docker-php-ext-enable mongodb \
-	&& docker-php-ext-install pdo_mysql zip soap
+	&& docker-php-ext-install pdo_mysql soap
 
 RUN apk del .phpize_deps
+RUN rm -r /tmp/
 
 RUN curl -sS https://getcomposer.org/installer | php -- \
     --install-dir=/usr/local/bin --filename=composer
