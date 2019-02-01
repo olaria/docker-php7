@@ -3,7 +3,8 @@ FROM php:7.3-fpm-alpine3.8
 RUN apk add --no-cache --virtual .build-deps \
 		$PHPIZE_DEPS \
 		libxml2-dev \
-		tzdata
+		tzdata \
+		git
 
 # define timezone
 ENV TZ=America/Bahia
