@@ -23,7 +23,7 @@ RUN apk del .build-deps
 RUN apk add --no-cache libzip-dev
 RUN docker-php-ext-install zip
 
-RUN rm -r /tmp/
+RUN rm -r /tmp/*
 
 # install composer
 RUN curl -sS https://getcomposer.org/installer | php -- \
