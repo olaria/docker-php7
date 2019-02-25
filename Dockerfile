@@ -4,7 +4,9 @@ RUN apk add --no-cache --virtual .build-deps \
 		$PHPIZE_DEPS \
 		libxml2-dev \
 		tzdata \
-		git
+		git \ 
+		openssl-dev \
+		openssl
 
 # define timezone
 ENV TZ=America/Bahia
@@ -17,7 +19,7 @@ RUN docker-php-ext-install pdo_mysql soap
 RUN pecl install mongodb \
     && docker-php-ext-enable mongodb
 
-RUN apk del .build-deps
+#RUN apk del .build-deps
 
 # install ext-php
 RUN apk add --no-cache libzip-dev
