@@ -4,30 +4,24 @@ RUN apk add --no-cache --virtual .build-deps \
 		$PHPIZE_DEPS \
 		libxml2-dev \
 		tzdata \
-		git \ 
+		git \
 		openssl-dev \
-		openssl
+		openssl \
+		libzip-dev
 
 # define timezone
 ENV TZ=America/Bahia
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
 RUN echo $TZ > /etc/timezone
 
-RUN docker-php-ext-install pdo_mysql soap
+RUN docker-php-ext-install pdo_mysql soap zip
 
 # install ext mongo
-RUN pecl install mongodb \
-    && docker-php-ext-enable mongodb
-
-#RUN apk del .build-deps
-
-# install ext-php
-RUN apk add --no-cache libzip-dev
-RUN docker-php-ext-install zip
+RUN pecl install mongodb
+RUN docker-php-ext-enable mongodb
 
 RUN rm -r /tmp/*
 
 # install composer
 RUN curl -sS https://getcomposer.org/installer | php -- \
     --install-dir=/usr/local/bin --filename=composer
-
