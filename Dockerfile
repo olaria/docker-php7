@@ -7,14 +7,15 @@ RUN apk add --no-cache --virtual .build-deps \
 		git \
 		openssl-dev \
 		openssl \
-		libzip-dev
+		libzip-dev \
+		gmp gmp-dev
 
 # define timezone
 ENV TZ=America/Bahia
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
 RUN echo $TZ > /etc/timezone
 
-RUN docker-php-ext-install pdo_mysql soap zip
+RUN docker-php-ext-install pdo_mysql soap zip gmp
 
 # install ext mongo
 RUN pecl install mongodb
