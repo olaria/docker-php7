@@ -4,7 +4,7 @@ RUN apk add --no-cache $PHPIZE_DEPS \
 	openssl openssl-dev
 
 # install ext mongo
-RUN pecl install mongodb-1.6.1 && \
+RUN pecl install mongodb-1.7.4 && \
 	docker-php-ext-enable mongodb
 
 # install gd lib
