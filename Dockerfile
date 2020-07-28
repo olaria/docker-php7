@@ -1,22 +1,24 @@
 FROM php:7.4-fpm-alpine3.11
 
-RUN apk add --no-cache $PHPIZE_DEPS \
-	openssl openssl-dev
-
-# install ext mongo
-RUN pecl install mongodb-1.7.4 && \
-	docker-php-ext-enable mongodb
-
-# install gd lib
-RUN apk add --no-cache freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev && \
-  docker-php-ext-install -j$(nproc) gd && \
-  apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev
-
 # install composer
 RUN curl -sS https://getcomposer.org/installer | php -- \
 	--install-dir=/usr/local/bin --filename=composer
 
+# install gd lib
+RUN apk add --no-cache libpng-dev && \
+  docker-php-ext-install -j$(nproc) gd
+
+RUN apk add --no-cache $PHPIZE_DEPS
+RUN apk add --no-cache openssl-dev git
+
+# install ext mongo
+RUN pecl channel-update pecl.php.net
+RUN pecl install mongodb-1.7.4 
+RUN docker-php-ext-enable mongodb
+RUN pecl clear-cache
+RUN apk del $PHPIZE_DEPS
+
 # install extensions
-RUN apk add --no-cache --virtual .build-deps \
-	libxml2-dev libzip-dev libxslt-dev gmp-dev postgresql-dev git && \
-	docker-php-ext-install -j$(nproc) pdo pdo_mysql pdo_pgsql soap zip gmp xsl
+RUN apk add --no-cache \
+	libxml2-dev libzip-dev libxslt-dev gmp-dev && \
+	docker-php-ext-install -j$(nproc) soap zip gmp xsl
